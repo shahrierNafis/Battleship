@@ -50,3 +50,20 @@ describe("receiveAttack", () => {
         expect(board.receiveAttack([0, 0])).toBe(false)
     })
 })
+
+describe("allSunk", () => {
+    test("allSunk", () => {
+        expect(board.allSunk).toBe(false)
+        board.receiveAttack([0, 0])
+        board.receiveAttack([1, 0])
+        board.receiveAttack([2, 0])
+        expect(board.allSunk).toBe(false)
+        board.receiveAttack([0, 7])
+        board.receiveAttack([0, 8])
+        board.receiveAttack([0, 9])
+        expect(board.allSunk).toBe(false)
+        board.receiveAttack([9, 0])
+        board.receiveAttack([9, 9])
+        expect(board.allSunk).toBe(true)
+    })
+})

@@ -1,6 +1,8 @@
 import Ship from "./Ship.js"
 function create() {
     let board = [];
+    let ships = [];
+    let allSunk = false;
 
     for (let i = 0; i < 10; i++) {
         board.push([]);
@@ -26,6 +28,8 @@ function create() {
                     !board[x + (shipLength - 1)][y].isTaken) {
                     // Place the ship
                     let ship = Ship.create(shipLength);
+                    // log ship
+                    ships.push(ship)
                     for (let i = 0; i < shipLength; i++) {
                         board[x + i][y].ship = ship;
                         takeSpace(x + i, y);
@@ -41,6 +45,8 @@ function create() {
                     !board[x][y + (shipLength - 1)].isTaken) {
                     // Place the ship
                     let ship = Ship.create(shipLength);
+                    // log ship
+                    ships.push(ship)
                     for (let i = 0; i < shipLength; i++) {
                         board[x][y + i].ship = ship;
                         takeSpace(x, y + i);
@@ -82,21 +88,32 @@ function create() {
         // Top right
         if (x + 1 < 10 && y - 1 >= 0) board[x + 1][y - 1].isTaken = true;
     }
-    function receiveAttack([x, y]) {
-        // it not hit
-        if (board[x][y].hit == false) {
-            board[x][y].hit = true
-            board[x][y].ship.hit()
-            return true
+    /**
+     * Marks the specified location on the board as hit and updates the ship's hit status.
+     * @param {Array} location - The [x, y] coordinates of the location to be attacked.
+     * @returns {boolean} - True if the attack successfully hits the location, false otherwise.
+     */
+    function receiveAttack(location) {
+        const [x, y] = location;
+
+        // Check if the location has already been hit
+        if (!board[x][y].hit) {
+            board[x][y].hit = true;
+            board[x][y].ship.hit();
+            return true;
         }
-        // return false if already hit
-        return false
+
+        // Return false if the location has already been hit
+        return false;
     }
     return {
         get board() {
             return board
         },
-        placeShip, receiveAttack
+        placeShip, receiveAttack,
+        get allSunk() {
+            return ships.every(ship => ship.isSunk())
+        }
     }
 }
 export default { create }
