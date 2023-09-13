@@ -1,6 +1,8 @@
 import Gameboard from "./Gameboard.js";
+
+let board = Gameboard.create()
+
 describe("placeShip function", () => {
-    let board = Gameboard.create()
 
     test("x Axis", () => {
         board.placeShip([0, 0], 3)
@@ -36,5 +38,15 @@ describe("placeShip function", () => {
         expect(board.placeShip([0, 6], 3, "y")).toBeFalsy()
         expect(board.placeShip([1, 7], 3, "y")).toBeFalsy()
 
+    })
+})
+describe("receiveAttack", () => {
+    test("attack", () => {
+        board.receiveAttack([0, 0])
+        expect(board.board[0][0].ship.hits).toBe(1)
+        expect(board.board[0][0].hit).toBe(true)
+    })
+    test("reattack", () => {
+        expect(board.receiveAttack([0, 0])).toBe(false)
     })
 })

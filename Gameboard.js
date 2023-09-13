@@ -1,10 +1,11 @@
 import Ship from "./Ship.js"
 function create() {
     let board = [];
+
     for (let i = 0; i < 10; i++) {
         board.push([]);
         for (let j = 0; j < 10; j++) {
-            board[i].push({ ship: null, isTaken: false })
+            board[i].push({ ship: null, isTaken: false, hit: false })
         }
 
     }
@@ -16,33 +17,33 @@ function create() {
      * @param {string} axis - The axis on which the ship will be placed ("x" or "y").
      * @returns {boolean} - True if the ship was successfully placed, false otherwise.
      */
-    function placeShip(coordinates, shipLength, axis = "x") {
+    function placeShip([x, y], shipLength, axis = "x") {
         if (axis == "x") {
             // Check if coordinates are within the board limits
-            if (coordinates[0] + (shipLength - 1) < 10) {
+            if (x + (shipLength - 1) < 10) {
                 // Check if the ship can be placed
-                if (!board[coordinates[0]][coordinates[1]].isTaken &&
-                    !board[coordinates[0] + (shipLength - 1)][coordinates[1]].isTaken) {
+                if (!board[x][y].isTaken &&
+                    !board[x + (shipLength - 1)][y].isTaken) {
                     // Place the ship
                     let ship = Ship.create(shipLength);
                     for (let i = 0; i < shipLength; i++) {
-                        board[coordinates[0] + i][coordinates[1]].ship = ship;
-                        takeSpace(coordinates[0] + i, coordinates[1]);
+                        board[x + i][y].ship = ship;
+                        takeSpace(x + i, y);
                     }
                     return true;
                 }
             }
         } else if (axis == "y") {
             // Check if coordinates are within the board limits
-            if (coordinates[1] + (shipLength - 1) < 10) {
+            if (y + (shipLength - 1) < 10) {
                 // Check if the ship can be placed
-                if (!board[coordinates[0]][coordinates[1]].isTaken &&
-                    !board[coordinates[0]][coordinates[1] + (shipLength - 1)].isTaken) {
+                if (!board[x][y].isTaken &&
+                    !board[x][y + (shipLength - 1)].isTaken) {
                     // Place the ship
                     let ship = Ship.create(shipLength);
                     for (let i = 0; i < shipLength; i++) {
-                        board[coordinates[0]][coordinates[1] + i].ship = ship;
-                        takeSpace(coordinates[0], coordinates[1] + i);
+                        board[x][y + i].ship = ship;
+                        takeSpace(x, y + i);
                     }
                     return true;
                 }
@@ -81,11 +82,21 @@ function create() {
         // Top right
         if (x + 1 < 10 && y - 1 >= 0) board[x + 1][y - 1].isTaken = true;
     }
+    function receiveAttack([x, y]) {
+        // it not hit
+        if (board[x][y].hit == false) {
+            board[x][y].hit = true
+            board[x][y].ship.hit()
+            return true
+        }
+        // return false if already hit
+        return false
+    }
     return {
         get board() {
             return board
         },
-        placeShip
+        placeShip, receiveAttack
     }
 }
 export default { create }
