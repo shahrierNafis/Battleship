@@ -11,11 +11,13 @@ describe("ai", () => {
         expect(ai.board.ships[4].length).toBe(2)
 
     })
+
     test("makeMove", () => {
+        let enemy = Player.create()
         let rep = 100
         let moves = []
         while (rep) {
-            let move = JSON.stringify(ai.makeMove())
+            let move = JSON.stringify(ai.makeMove(enemy.board))
             expect(moves.includes(move)).toBe(false)
             moves.push(move)
             rep--

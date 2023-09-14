@@ -35,13 +35,13 @@ function createAi() {
      * Makes a move by attacking a random position on the opponent's gameboard.
      * @returns {array} The move made by the AI player.
      */
-    function makeMove() {
+    function makeMove(enemyBoard) {
         let move;
         let isLegal = false;
         while (!isLegal) {
             let [x, y] = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)]
             move = [x, y]
-            isLegal = board.receiveAttack(move)
+            isLegal = enemyBoard.receiveAttack(move)
         }
         return move
     }
@@ -56,10 +56,29 @@ function createAi() {
 
 } function placeRandom(board, shipLength) {
     let placed = false;
+    let x, y
+    let axis
     while (!placed) {
-        let [x, y] = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)]
-        let axis = Math.random() < 0.5 ? "x" : "y";
+        [x, y] = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)]
+        axis = Math.random() < 0.5 ? "x" : "y";
         placed = board.placeShip([x, y], shipLength, axis)
     }
+    const shipCoordinates = []
+    shipCoordinates.push([x, y])
+    if (axis == "x") {
+        while (shipLength - 1) {
+            x++
+            shipCoordinates.push([x, y])
+            shipLength--
+        }
+    }
+    if (axis == "y") {
+        while (shipLength - 1) {
+            y++
+            shipCoordinates.push([x, y])
+            shipLength--
+        }
+    }
+    return shipCoordinates
 }
 export default { create, createAi, placeRandom }
