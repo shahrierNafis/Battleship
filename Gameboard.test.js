@@ -6,13 +6,13 @@ describe("placeShip function", () => {
 
     test("x Axis", () => {
         board.placeShip([0, 0], 3)
-        expect(board.board[2][0].isTaken).toBe(true)
-        expect(board.board[4][0].isTaken).toBe(false)
+        expect(board.boardAsArray[2][0].isTaken).toBe(true)
+        expect(board.boardAsArray[4][0].isTaken).toBe(false)
     })
     test("y axis", () => {
         board.placeShip([0, 7], 3, "y")
-        expect(board.board[0][7].isTaken).toBe(true)
-        expect(board.board[0][5].isTaken).toBe(false)
+        expect(board.boardAsArray[0][7].isTaken).toBe(true)
+        expect(board.boardAsArray[0][5].isTaken).toBe(false)
 
     })
     test("over board", () => {
@@ -43,8 +43,8 @@ describe("placeShip function", () => {
 describe("receiveAttack", () => {
     test("attack", () => {
         board.receiveAttack([0, 0])
-        expect(board.board[0][0].ship.hits).toBe(1)
-        expect(board.board[0][0].hit).toBe(true)
+        expect(board.boardAsArray[0][0].ship.hits).toBe(1)
+        expect(board.boardAsArray[0][0].hit).toBe(true)
     })
     test("reattack", () => {
         expect(board.receiveAttack([0, 0])).toBe(false)

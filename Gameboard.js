@@ -1,13 +1,13 @@
 import Ship from "./Ship.js"
 function create() {
-    let board = [];
+    let boardAsArray = [];
     let ships = [];
     let allSunk = false;
 
     for (let i = 0; i < 10; i++) {
-        board.push([]);
+        boardAsArray.push([]);
         for (let j = 0; j < 10; j++) {
-            board[i].push({ ship: null, isTaken: false, hit: false })
+            boardAsArray[i].push({ ship: null, isTaken: false, hit: false })
         }
 
     }
@@ -24,14 +24,14 @@ function create() {
             // Check if coordinates are within the board limits
             if (x + (shipLength - 1) < 10) {
                 // Check if the ship can be placed
-                if (!board[x][y].isTaken &&
-                    !board[x + (shipLength - 1)][y].isTaken) {
+                if (!boardAsArray[x][y].isTaken &&
+                    !boardAsArray[x + (shipLength - 1)][y].isTaken) {
                     // Place the ship
                     let ship = Ship.create(shipLength);
                     // log ship
                     ships.push(ship)
                     for (let i = 0; i < shipLength; i++) {
-                        board[x + i][y].ship = ship;
+                        boardAsArray[x + i][y].ship = ship;
                         takeSpace(x + i, y);
                     }
                     return true;
@@ -41,14 +41,14 @@ function create() {
             // Check if coordinates are within the board limits
             if (y + (shipLength - 1) < 10) {
                 // Check if the ship can be placed
-                if (!board[x][y].isTaken &&
-                    !board[x][y + (shipLength - 1)].isTaken) {
+                if (!boardAsArray[x][y].isTaken &&
+                    !boardAsArray[x][y + (shipLength - 1)].isTaken) {
                     // Place the ship
                     let ship = Ship.create(shipLength);
                     // log ship
                     ships.push(ship)
                     for (let i = 0; i < shipLength; i++) {
-                        board[x][y + i].ship = ship;
+                        boardAsArray[x][y + i].ship = ship;
                         takeSpace(x, y + i);
                     }
                     return true;
@@ -65,28 +65,28 @@ function create() {
      */
     function takeSpace(x, y) {
         // Right
-        if (x + 1 < 10) board[x + 1][y].isTaken = true;
+        if (x + 1 < 10) boardAsArray[x + 1][y].isTaken = true;
 
         // Bottom right
-        if (x + 1 < 10 && y + 1 < 10) board[x + 1][y + 1].isTaken = true;
+        if (x + 1 < 10 && y + 1 < 10) boardAsArray[x + 1][y + 1].isTaken = true;
 
         // Bottom
-        if (y + 1 < 10) board[x][y + 1].isTaken = true;
+        if (y + 1 < 10) boardAsArray[x][y + 1].isTaken = true;
 
         // Bottom left
-        if (x - 1 >= 0 && y + 1 < 10) board[x - 1][y + 1].isTaken = true;
+        if (x - 1 >= 0 && y + 1 < 10) boardAsArray[x - 1][y + 1].isTaken = true;
 
         // Left
-        if (x - 1 >= 0) board[x - 1][y].isTaken = true;
+        if (x - 1 >= 0) boardAsArray[x - 1][y].isTaken = true;
 
         // Top left
-        if (x - 1 >= 0 && y - 1 >= 0) board[x - 1][y - 1].isTaken = true;
+        if (x - 1 >= 0 && y - 1 >= 0) boardAsArray[x - 1][y - 1].isTaken = true;
 
         // Top
-        if (y - 1 >= 0) board[x][y - 1].isTaken = true;
+        if (y - 1 >= 0) boardAsArray[x][y - 1].isTaken = true;
 
         // Top right
-        if (x + 1 < 10 && y - 1 >= 0) board[x + 1][y - 1].isTaken = true;
+        if (x + 1 < 10 && y - 1 >= 0) boardAsArray[x + 1][y - 1].isTaken = true;
     }
     /**
      * Marks the specified location on the board as hit and updates the ship's hit status.
@@ -97,9 +97,9 @@ function create() {
         const [x, y] = location;
 
         // Check if the location has already been hit
-        if (!board[x][y].hit) {
-            board[x][y].hit = true;
-            let ship = board[x][y].ship
+        if (!boardAsArray[x][y].hit) {
+            boardAsArray[x][y].hit = true;
+            let ship = boardAsArray[x][y].ship
             if (ship) {
                 ship.hit();
             }
@@ -110,8 +110,10 @@ function create() {
         return false;
     }
     return {
-        get board() {
-            return board
+        get boardAsArray() {
+            return boardAsArray;
+        }, get ships() {
+            return ships;
         },
         placeShip, receiveAttack,
         get allSunk() {
