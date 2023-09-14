@@ -99,7 +99,10 @@ function create() {
         // Check if the location has already been hit
         if (!board[x][y].hit) {
             board[x][y].hit = true;
-            board[x][y].ship.hit();
+            let ship = board[x][y].ship
+            if (ship) {
+                ship.hit();
+            }
             return true;
         }
 
