@@ -111,7 +111,9 @@ function create() {
     }
     return {
         get board() {
-            return board
+            return board;
+        }, get ships() {
+            return ships;
         },
         placeShip, receiveAttack,
         get allSunk() {
