@@ -1,0 +1,70 @@
+body {
+    background-color: black;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-areas:
+        ". . . . ."
+        ". player play ai ."
+        ". . . . .";
+    grid-template-columns: .1fr 1fr .4fr 1fr .1fr;
+    grid-template-rows: 1fr 4fr 1fr;
+
+}
+
+
+#player {
+    display: grid;
+    grid-area: player;
+    background-color: gray;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+#play {
+    grid-area: play;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+#play div {
+    font: 6rem sans-serif;
+    border: 4px solid white;
+}
+
+#play div.gray {
+    border: 4px solid gray;
+    color: gray;
+    pointer-events: none
+}
+
+#ai {
+    display: grid;
+    grid-area: ai;
+    background-color: gray;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.game-not-ready {
+    pointer-events: none
+}
+
+.cell {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.taken {
+    background-color: aquamarine;
+}
+
+.hit {
+    background-color: red;
+}
+
+.miss {
+    background-color: yellow;
+}
