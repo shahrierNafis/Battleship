@@ -55,29 +55,14 @@ function createAi() {
     }
 
 } function placeRandom(board, shipLength) {
-    let placed = false;
+    let shipCoordinates;
     let x, y
     let axis
-    while (!placed) {
+    // run until receiving the shipCoordinates
+    while (!shipCoordinates) {
         [x, y] = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)]
         axis = Math.random() < 0.5 ? "x" : "y";
-        placed = board.placeShip([x, y], shipLength, axis)
-    }
-    const shipCoordinates = []
-    shipCoordinates.push([x, y])
-    if (axis == "x") {
-        while (shipLength - 1) {
-            x++
-            shipCoordinates.push([x, y])
-            shipLength--
-        }
-    }
-    if (axis == "y") {
-        while (shipLength - 1) {
-            y++
-            shipCoordinates.push([x, y])
-            shipLength--
-        }
+        shipCoordinates = board.placeShip([x, y], shipLength, axis)
     }
     return shipCoordinates
 }

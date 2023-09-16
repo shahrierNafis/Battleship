@@ -30,11 +30,14 @@ function create() {
                     let ship = Ship.create(shipLength);
                     // log ship
                     ships.push(ship)
+                    const shipCoordinates = []
                     for (let i = 0; i < shipLength; i++) {
                         boardAsArray[x + i][y].ship = ship;
                         takeSpace(x + i, y);
+                        shipCoordinates.push([x + i, y])
                     }
-                    return true;
+                    ships[ships.length - 1].coordinates = shipCoordinates;
+                    return shipCoordinates;
                 }
             }
         } else if (axis == "y") {
@@ -47,11 +50,14 @@ function create() {
                     let ship = Ship.create(shipLength);
                     // log ship
                     ships.push(ship)
+                    const shipCoordinates = []
                     for (let i = 0; i < shipLength; i++) {
                         boardAsArray[x][y + i].ship = ship;
                         takeSpace(x, y + i);
+                        shipCoordinates.push([x, y + i])
                     }
-                    return true;
+                    ships[ships.length - 1].coordinates = shipCoordinates;
+                    return shipCoordinates;
                 }
             }
         }
@@ -117,6 +123,10 @@ function create() {
         },
         placeShip, receiveAttack,
         get allSunk() {
+            // return false if no ships
+            if (ships.length == 0) {
+                return false
+            }
             return ships.every(ship => ship.isSunk())
         }
     }
